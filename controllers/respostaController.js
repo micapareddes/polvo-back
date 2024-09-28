@@ -19,7 +19,10 @@ class RespostaController {
         const totalDeTentativasDoQuiz = Number(quiz.tentativas)
         const tentativasAluno = await ModeloResposta.countDocuments({ aluno_id: alunoId, quiz_id })
         if (totalDeTentativasDoQuiz !== 0 && tentativasAluno >= totalDeTentativasDoQuiz) throw new ServidorError(ANSWER_ERROR.NO_MORE_ATTEMPTS)
-
+        console.log('Quiz: ',quiz);
+        console.log('Tentativas quiz convertidas em num: ',totalDeTentativasDoQuiz);
+        console.log('Aluno: ',tentativasAluno);
+        
         const perguntasQuiz = await ModeloResposta.findById(respostaId, 'perguntas_quiz -_id')
         const perguntas = perguntasQuiz.perguntas_quiz
         
