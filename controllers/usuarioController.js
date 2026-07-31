@@ -122,13 +122,12 @@ class UsuarioController {
     async alterarSenha(req, res) {
         const id = req.userId
         const reqUser = await ModeloUsuario.findById(id)
-        if (reqUser.papel === 'admin') {
-            console.log('Adm não permitido!');
-            throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)}
-        
-        const { senhaAtual, novaSenha } = req.body
-        
+
         if (!reqUser) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+
+        const { senhaAtual, novaSenha } = req.body
+
+        if (!senhaAtual || !novaSenha) throw new ServidorError(USER_ERROR.MISSING_REQUIRED_FIELDS)
 
         const senhaAtualCorreta = await bcrypt.compare(senhaAtual, reqUser.senha)
 
